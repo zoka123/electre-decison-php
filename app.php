@@ -253,14 +253,29 @@ $finalMatrix = array();
 
 for ($i = 1; $i <= count($alternatives); $i++) {
     for ($j = 1; $j <= count($alternatives); $j++) {
+        if ($i == $j) {
+            $finalMatrix[$i][$j] = 0;
+        }
         if ($agreeMatrix[$i][$j] > $agreeAvg && $disagreeMatrix[$i][$j] < $disagreeAvg) {
             $finalMatrix[$i][$j] = 1;
+            // i dominates j
+            $alternatives[$i - 1]->addDominates($alternatives[$j - 1]->getName());
+
         } else {
             $finalMatrix[$i][$j] = 0;
+            // i is dominated by j
         }
     }
 }
 
-echo 'AGREE MATRIX' . PHP_EOL;
+echo PHP_EOL . PHP_EOL;
+echo 'FINAL MATRIX' . PHP_EOL;
 $printMatrix($finalMatrix, count($alternatives));
 echo PHP_EOL . PHP_EOL;
+
+/** @var Alternative $alternative */
+foreach ($alternatives as $alternative) {
+    echo $alternative->getName() . PHP_EOL;
+    echo ' - DOMINATES OVER: ' . implode(', ', $alternative->getDominates()) . PHP_EOL;
+    echo PHP_EOL;
+}

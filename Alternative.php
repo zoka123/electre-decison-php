@@ -10,6 +10,8 @@ class Alternative
 
     private $negativeSet = array();
 
+    private $dominates = array();
+
     public static function make()
     {
         return new self();
@@ -141,4 +143,26 @@ class Alternative
         }
         return $return;
     }
+
+    /**
+     * @return array
+     */
+    public function getDominates()
+    {
+        return $this->dominates;
+    }
+
+    /**
+     * @param array $dominates
+     */
+    public function setDominates($dominates)
+    {
+        $this->dominates = $dominates;
+    }
+
+    public function addDominates($alternativeName)
+    {
+        $this->dominates[] = $alternativeName;
+    }
+
 }
